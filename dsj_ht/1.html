@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大事件-后台登录页面</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- 导入bootstrap的css文件 -->
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <div class="main_wrap">
+        <div class="header">
+            <a href="#" class="logo"><img src="./images/logo.png" alt=""></a>
+            <div class="copyright">CopyRight © 2019 深圳百秀信息技术股份有限公司<br>All Rights Reserved</div>
+        </div>
+
+        <div class="login_form_con">
+            <div class="login_title"></div>
+            <form class="login_form">
+                <i class="iconfont icon-user"></i>
+                <i class="iconfont icon-key"></i>
+                <input type="text" class="input_txt" placeholder="邮箱/手机号">
+                <input type="password" class="input_pass" placeholder="密码">
+                <input type="submit" class="input_sub" value="登 录">
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <!-- bootstrap的模态框 -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">提示框!!!!</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 引入jq -->
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <!-- 引入bootstrap的js文件 -->
+
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $(function () {
+            ////给登录按钮一个点击事件,记得清除他的默认跳转
+
+            $('.input_sub').on('click', function (e) {
+                e.preventDefault();
+
+
+                //获取用户输入的账号和密码
+
+                var userName = $('.input_txt').val().trim();
+                var password = $('.input_pass').val().trim();
+                //作非空判断，如果为空，提示;如果不为空,继续
+
+                if (userName == "" || password == "") {
+                    $('.modal-body').text('账号或密码为空,请重新输入!');
+                    $('#myModal').modal({
+                        keyboard: true //keyboard boolean true 键盘上的 esc 键被按下时关闭模态框。
+                    });
+                    return;
+                }
+
+
+                //发ajax请求
+
+                $.ajax({
+                    type: 'post',
+                    url: ' https://autumnfish.cn/big/admin/login',
+                    data: {
+                        user_name: userName,
+                        password: password
+
+                    },
+                    success: function (backData) {
+                        //通过返回的数据的code来判断账号和密码是否是正确的.
+                        if (backData.code != 200) {
+                            $('.modal-body').text('账号或密码错误！！');
+                            $('#myModal').modal({
+                                keyboard: true
+
+                            })
+                        } else {
+                            //账号密码正确,跳转到首页.
+                            window.location.href = "./index.html"
+                        }
+
+
+
+                    }
+
+
+                })
+
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
